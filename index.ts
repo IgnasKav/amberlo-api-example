@@ -1,4 +1,5 @@
 import { Cases } from "./api/cases";
+import { searchClients } from "./clients/search";
 
 const getCases = async () => {
   const body = {
@@ -19,6 +20,7 @@ const getCases = async () => {
   return res;
 };
 
+const clients = await searchClients();
 const cases = await getCases();
 
 console.log("done");
