@@ -1,4 +1,5 @@
 import { Cases } from "./api/cases";
+import { createClient } from "./clients/create";
 import { searchClients } from "./clients/search";
 
 const getCases = async () => {
@@ -20,7 +21,8 @@ const getCases = async () => {
   return res;
 };
 
-const clients = await searchClients();
-const cases = await getCases();
+// const clients = await searchClients();
+// const cases = await getCases();
+await createClient();
 
 console.log("done");
