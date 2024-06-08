@@ -1,9 +1,8 @@
 import { Auth } from "../api/auth";
-import { Clients } from "../api/clients";
+import { Clients, type ClientCreateRequest } from "../api/clients";
 import { Lists } from "../api/lists";
 
 const createClient = async () => {
-  // later move loading of these properties to another method and resolve them using Promise.all
   const {
     currentUser,
     clientNumber,
@@ -13,6 +12,22 @@ const createClient = async () => {
     currencies,
     countries,
   } = await loadClientData();
+
+  const clientCreateReq: ClientCreateRequest = {
+    clientNumber,
+    clientType: "Private",
+    createDate: new Date().toISOString(),
+    firstName: "Example",
+    lastName: "Client",
+    relationship: clientRelationshipTypes[0],
+    responsible: currentUser,
+    status: clientStatuses[0],
+    contacts: [],
+    customFields: [],
+    owners: [],
+  };
+
+  const clientCreateResp = await Clients.create(clientCreateReq);
 
   console.log("clientNumber", clientNumber);
 };

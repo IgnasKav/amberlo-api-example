@@ -2,7 +2,7 @@ import { get, post } from "./api";
 
 type ListType = "VatRates" | "ClientStatus" | "ClientRelationship";
 
-type ListItem = {
+export type ListItem = {
   listItemId: string;
   listName: ListType;
   // this is the value
