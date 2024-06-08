@@ -15,6 +15,7 @@ type ClientCreateRequest = {
   clientType: "Private" | "Company";
   // can be an empty array, but is required
   contacts: [];
+  // iso string
   createDate: Date;
   // can be an empty array, but is required
   customFields: [];

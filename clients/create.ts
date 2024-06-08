@@ -3,12 +3,43 @@ import { Lists } from "../api/lists";
 
 const createClient = async () => {
   // later move loading of these properties to another method and resolve them using Promise.all
-  const clientNumber = await loadClientNumber();
-  const clientStatuses = await loadClientStatuses();
-  const clientRelationshipTypes = await loadClientRelationshipTypes();
-  const vatRates = await loadVatRates();
+  const {
+    clientNumber,
+    clientStatuses,
+    clientRelationshipTypes,
+    vatRates,
+    currencies,
+    countries,
+  } = await loadClientData();
 
   console.log("clientNumber", clientNumber);
+};
+
+const loadClientData = async () => {
+  const [
+    clientNumber,
+    clientStatuses,
+    clientRelationshipTypes,
+    vatRates,
+    currencies,
+    countries,
+  ] = await Promise.all([
+    loadClientNumber(),
+    loadClientStatuses(),
+    loadClientRelationshipTypes(),
+    loadVatRates(),
+    loadCurrencies(),
+    loadCountries(),
+  ]);
+
+  return {
+    clientNumber,
+    clientStatuses,
+    clientRelationshipTypes,
+    vatRates,
+    currencies,
+    countries,
+  };
 };
 
 const loadClientNumber = async () => {
@@ -52,6 +83,26 @@ const loadVatRates = async () => {
   }
 
   return vatRatesResp.data.list.items;
+};
+
+const loadCurrencies = async () => {
+  const currenciesResp = await Lists.getCurrencies();
+
+  if (currenciesResp.isError || !currenciesResp.data) {
+    throw new Error("failed to load currencies");
+  }
+
+  return currenciesResp.data.rows;
+};
+
+const loadCountries = async () => {
+  const countriesResp = await Lists.getCountries();
+
+  if (countriesResp.isError || !countriesResp.data) {
+    throw new Error("failed to load countries");
+  }
+
+  return countriesResp.data;
 };
 
 export { createClient };
