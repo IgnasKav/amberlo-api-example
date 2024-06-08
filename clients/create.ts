@@ -1,9 +1,11 @@
+import { Auth } from "../api/auth";
 import { Clients } from "../api/clients";
 import { Lists } from "../api/lists";
 
 const createClient = async () => {
   // later move loading of these properties to another method and resolve them using Promise.all
   const {
+    currentUser,
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
@@ -17,6 +19,7 @@ const createClient = async () => {
 
 const loadClientData = async () => {
   const [
+    currentUser,
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
@@ -24,6 +27,7 @@ const loadClientData = async () => {
     currencies,
     countries,
   ] = await Promise.all([
+    loadCurrentUser(),
     loadClientNumber(),
     loadClientStatuses(),
     loadClientRelationshipTypes(),
@@ -33,6 +37,7 @@ const loadClientData = async () => {
   ]);
 
   return {
+    currentUser,
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
@@ -40,6 +45,16 @@ const loadClientData = async () => {
     currencies,
     countries,
   };
+};
+
+const loadCurrentUser = async () => {
+  const userResp = await Auth.getCurrentUser();
+
+  if (userResp.isError || !userResp.data) {
+    throw new Error("failed to load current user");
+  }
+
+  return userResp.data;
 };
 
 const loadClientNumber = async () => {
