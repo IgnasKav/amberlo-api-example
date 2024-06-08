@@ -1,6 +1,6 @@
 import { get } from "./api";
 
-type GetCurrentUserResponse = {
+export type AmberloUser = {
   createDate: string;
   firstName: string;
   isActive: boolean;
@@ -18,7 +18,7 @@ type GetCurrentUserResponse = {
 };
 
 const Auth = {
-  getCurrentUser: () => get<GetCurrentUserResponse>("/api/account/account"),
+  getCurrentUser: () => get<AmberloUser>("/api/account/account"),
 };
 
 export { Auth };

@@ -1,27 +1,35 @@
 import { get, post } from "./api";
-import type { ListItem } from "./lists";
+import type { AmberloUser } from "./auth";
+import type { Country, Currency, ListItem } from "./lists";
 
-// check if possible to create client with lists that only have listItemId and listName
-// check if possible to create client with responsible that only has securityUserId
+export type ClientAddress = {
+  city?: {
+    name: string;
+  };
+  country: Country;
+};
 
 export type ClientCreateRequest = {
   clientNumber: string;
-
-  // check if company type is correct
+  firstName: string;
+  lastName: string;
   clientType: "Private" | "Company";
   // can be an empty array, but is required
   contacts: [];
-  // iso string
+  // date iso string
   createDate: string;
   // can be an empty array, but is required
   customFields: [];
-  firstName: string;
-  lastName: string;
   // can be an empty array, but is required
   owners: [];
   relationship: ListItem;
-  responsible: any;
+  responsible: AmberloUser;
   status: ListItem;
+  // optional, if not set, default curreny from settigns will be used
+  currency?: Currency;
+  // optional, if not set, default paymentTerm from settigns will be used
+  paymentTerm?: number;
+  addresses?: ClientAddress[];
 };
 
 type ClientCreateResponse = {

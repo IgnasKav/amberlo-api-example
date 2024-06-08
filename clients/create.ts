@@ -1,6 +1,10 @@
 import { Auth } from "../api/auth";
-import { Clients, type ClientCreateRequest } from "../api/clients";
-import { Lists } from "../api/lists";
+import {
+  Clients,
+  type ClientAddress,
+  type ClientCreateRequest,
+} from "../api/clients";
+import { Lists, type Country } from "../api/lists";
 
 const createClient = async () => {
   const {
@@ -25,11 +29,35 @@ const createClient = async () => {
     contacts: [],
     customFields: [],
     owners: [],
+    paymentTerm: 1,
+    currency: currencies[0],
   };
+
+  addClientAdress(clientCreateReq, countries);
 
   const clientCreateResp = await Clients.create(clientCreateReq);
 
-  console.log("clientNumber", clientNumber);
+  if (clientCreateResp.isError) {
+    throw new Error(
+      `failed to create client, reason: ${clientCreateResp.message}`
+    );
+  }
+
+  console.log("client created");
+};
+
+const addClientAdress = (
+  clientCreateReq: ClientCreateRequest,
+  countries: Country[]
+) => {
+  const adress: ClientAddress = {
+    city: {
+      name: "Some city",
+    },
+    country: countries[0],
+  };
+
+  clientCreateReq.addresses = [adress];
 };
 
 const loadClientData = async () => {

@@ -17,7 +17,7 @@ type GetListResponse = {
   };
 };
 
-type Currency = {
+export type Currency = {
   currencyId: string;
   name: string;
   symbol: string;
@@ -28,7 +28,7 @@ type GetCurrenciesResponse = {
   rows: Currency[];
 };
 
-type Country = {
+export type Country = {
   countryId: string;
   iso2: string;
   iso3: string;
