@@ -41,7 +41,7 @@ const Lists = {
   getList: async (type: ListType, includeDefault: boolean) =>
     get<GetListResponse>(`/api/lists/${type}?includeDefault=${includeDefault}`),
   getVatRates: async () =>
-    get<GetListResponse>("/api/lists/VatRates?includeDefault=true"),
+    get<GetListResponse>("/api/lists/VatRates?includeDefault=false"),
   getCurrencies: async () =>
     get<GetCurrenciesResponse>("/api/lists/currencies"),
   getCountries: async () => get<Country[]>("/api/countries"),

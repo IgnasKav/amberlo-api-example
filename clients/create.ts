@@ -12,7 +12,6 @@ const createClient = async () => {
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
-    vatRates,
     currencies,
     countries,
   } = await loadClientData();
@@ -33,7 +32,9 @@ const createClient = async () => {
     currency: currencies[0],
   };
 
+  // adding address and vat rate is optional
   addClientAdress(clientCreateReq, countries);
+  addVatRate(clientCreateReq, 21);
 
   const clientCreateResp = await Clients.create(clientCreateReq);
 
@@ -46,6 +47,12 @@ const createClient = async () => {
   console.log("client created");
 };
 
+const addVatRate = (clientCreateReq: ClientCreateRequest, vatRate: number) => {
+  clientCreateReq.vatRate = vatRate;
+  clientCreateReq.vatRateDisabled = false;
+  clientCreateReq.vatRateType = "Default";
+};
+
 const addClientAdress = (
   clientCreateReq: ClientCreateRequest,
   countries: Country[]
@@ -55,6 +62,9 @@ const addClientAdress = (
       name: "Some city",
     },
     country: countries[0],
+    postalCode: "123123",
+    state: "Kaunas",
+    streetLine1: "Some street",
   };
 
   clientCreateReq.addresses = [adress];
@@ -66,7 +76,6 @@ const loadClientData = async () => {
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
-    vatRates,
     currencies,
     countries,
   ] = await Promise.all([
@@ -74,7 +83,6 @@ const loadClientData = async () => {
     loadClientNumber(),
     loadClientStatuses(),
     loadClientRelationshipTypes(),
-    loadVatRates(),
     loadCurrencies(),
     loadCountries(),
   ]);
@@ -84,7 +92,6 @@ const loadClientData = async () => {
     clientNumber,
     clientStatuses,
     clientRelationshipTypes,
-    vatRates,
     currencies,
     countries,
   };

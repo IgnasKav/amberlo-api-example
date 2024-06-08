@@ -6,7 +6,11 @@ export type ClientAddress = {
   city?: {
     name: string;
   };
+
   country: Country;
+  postalCode?: string;
+  state?: string;
+  streetLine1?: string;
 };
 
 export type ClientCreateRequest = {
@@ -30,6 +34,10 @@ export type ClientCreateRequest = {
   // optional, if not set, default paymentTerm from settigns will be used
   paymentTerm?: number;
   addresses?: ClientAddress[];
+
+  vatRate?: number;
+  vatRateDisabled?: boolean;
+  vatRateType?: "Default";
 };
 
 type ClientCreateResponse = {
