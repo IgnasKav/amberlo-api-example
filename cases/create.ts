@@ -9,12 +9,17 @@ const createCase = async () => {
     caseNumber,
     caseCategories,
     caseTypes,
-    clients,
+    clientsSearchResp,
     jurisdictions,
     languages,
   } = await loadCaseData();
 
   const category = caseCategories[1];
+  const clients = clientsSearchResp.rows;
+
+  if (clients.length === 0) {
+    throw new Error("No clients created");
+  }
 
   const caseCreateRequest: CaseCreateRequest = {
     caseNumber: caseNumber,
@@ -28,7 +33,7 @@ const createCase = async () => {
     status: "New",
     archiveNumber: "1231322",
     client: {
-      clientId: clients.length > 0 ? clients[0].clientId : "",
+      clientId: clients[0].clientId,
     },
     courtCaseNumber: "1231231",
     description: "description",
@@ -41,6 +46,10 @@ const createCase = async () => {
   addCaseType(caseCreateRequest, category, caseTypes);
 
   const caseCreateResp = await Cases.create(caseCreateRequest);
+
+  if (caseCreateResp.isError) {
+    throw new Error(`Failed to create case, reason: ${caseCreateResp.message}`);
+  }
 
   console.log("case created");
 };

@@ -9,7 +9,7 @@ const loadCaseData = async () => {
     caseNumber,
     caseCategories,
     caseTypes,
-    clients,
+    clientsSearchResp,
     jurisdictions,
     languages,
   ] = await Promise.all([
@@ -17,7 +17,7 @@ const loadCaseData = async () => {
     loadCaseNumber(),
     loadCaseCategories(),
     loadCaseTypes(),
-    loadClients(),
+    searchClients(),
     loadCaseJurisdictions(),
     loadCaseLanguages(),
   ]);
@@ -27,7 +27,7 @@ const loadCaseData = async () => {
     caseNumber,
     caseCategories,
     caseTypes,
-    clients,
+    clientsSearchResp,
     jurisdictions,
     languages,
   };
@@ -61,16 +61,6 @@ const loadCaseTypes = async () => {
   }
 
   return caseTypesResp.data.list.items;
-};
-
-const loadClients = async () => {
-  const clientsResp = await searchClients();
-
-  if (clientsResp.isError || !clientsResp.data) {
-    throw new Error("failed to load clients");
-  }
-
-  return clientsResp.data.rows;
 };
 
 const loadCaseJurisdictions = async () => {

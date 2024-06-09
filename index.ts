@@ -3,9 +3,9 @@ import { searchCases } from "./cases/search";
 import { createClient } from "./clients/create";
 import { searchClients } from "./clients/search";
 
+await createClient();
+await createCase();
 const clients = await searchClients();
-// const cases = await searchCases();
-// await createClient();
-// await createCase();
+const cases = await searchCases();
 
 console.log("done");
