@@ -1,9 +1,10 @@
 ---
 created: 2024-06-07T13:20:20.074Z
-updated: 2024-06-08T12:03:44.450Z
+updated: 2024-06-09T14:12:22.363Z
 assigned: ""
 progress: 0
 tags: []
+completed: 2024-06-09T14:12:22.363Z
 ---
 
 # Create client create example

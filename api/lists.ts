@@ -1,6 +1,13 @@
 import { get, post } from "./api";
 
-type ListType = "VatRates" | "ClientStatus" | "ClientRelationship";
+type ListType =
+  | "VatRates"
+  | "ClientStatus"
+  | "ClientRelationship"
+  | "CaseCategory"
+  | "CaseType"
+  | "CaseJurisdiction"
+  | "CaseLanguage";
 
 export type ListItem = {
   listItemId: string;

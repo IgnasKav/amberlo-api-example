@@ -1,8 +1,4 @@
-import {
-  Clients,
-  type ClientAddress,
-  type ClientCreateRequest,
-} from "../api/clients";
+import { Clients } from "../api/clients/clients";
 import {
   type CustomField,
   type CustomFieldSaveReq,
@@ -11,8 +7,12 @@ import { type Country } from "../api/lists";
 import {
   ClientCustomFieldTypes,
   ClientPaymentTypesCustomFieldValues,
-} from "./models/custom-fields";
+} from "../api/clients/models/client-custom-fields";
 import { loadClientData } from "./utils";
+import type {
+  ClientCreateRequest,
+  ClientAddress,
+} from "../api/clients/models/client-create";
 
 const createClient = async () => {
   const {
@@ -32,7 +32,9 @@ const createClient = async () => {
     firstName: "Example",
     lastName: "Client",
     relationship: clientRelationshipTypes[0],
-    responsible: currentUser,
+    responsible: {
+      securityUserId: currentUser.securityUserId,
+    },
     status: clientStatuses[0],
     contacts: [],
     customFields: [],

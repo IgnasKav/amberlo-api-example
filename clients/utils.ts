@@ -1,5 +1,5 @@
 import { Auth } from "../api/auth";
-import { Clients } from "../api/clients";
+import { Clients } from "../api/clients/clients";
 import { CustomFields } from "../api/custom-fields";
 import { Lists } from "../api/lists";
 

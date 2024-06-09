@@ -11,8 +11,10 @@ completedColumns:
 
 ## Todo
 
-- [create-client-create-example](tasks/create-client-create-example.md)
-
 ## In Progress
 
+- [create-case-create-example](tasks/create-case-create-example.md)
+
 ## Done
+
+- [create-client-create-example](tasks/create-client-create-example.md)

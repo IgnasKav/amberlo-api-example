@@ -1,7 +1,7 @@
-import { get, post } from "./api";
-import type { AmberloUser } from "./auth";
-import type { CustomFieldSaveReq } from "./custom-fields";
-import type { Country, Currency, ListItem } from "./lists";
+import type { AmberloUser } from "../../auth";
+import type { CustomFieldSaveReq } from "../../custom-fields";
+import type { ListItem, Currency, Country } from "../../lists";
+import type { ClientType } from "../clients";
 
 export type ClientAddress = {
   city?: {
@@ -18,7 +18,7 @@ export type ClientCreateRequest = {
   clientNumber: string;
   firstName: string;
   lastName: string;
-  clientType: "Private" | "Company";
+  clientType: ClientType;
   // can be an empty array, but is required
   contacts: [];
   // date iso string
@@ -28,7 +28,7 @@ export type ClientCreateRequest = {
   // can be an empty array, but is required
   owners: [];
   relationship: ListItem;
-  responsible: AmberloUser;
+  responsible: { securityUserId: string };
   status: ListItem;
   // optional, if not set, default curreny from settigns will be used
   currency?: Currency;
@@ -41,22 +41,6 @@ export type ClientCreateRequest = {
   vatRateType?: "Default";
 };
 
-type ClientCreateResponse = {
+export type ClientCreateResponse = {
   clientId: string;
 };
-
-type GetClientNumberResponse = {
-  clientNumber: string;
-};
-
-const Clients = {
-  search: async (filters: object) => post("/api/clients/search", filters),
-  create: async (req: ClientCreateRequest) =>
-    post<ClientCreateResponse>("/api/clients", req),
-  getClientNumber: async () =>
-    get<GetClientNumberResponse>(
-      `/api/clients/number?date=${new Date().toISOString()}`
-    ),
-};
-
-export { Clients };
