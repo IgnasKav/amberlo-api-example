@@ -15,6 +15,7 @@ export type ListItem = {
   // this is the value
   name: string;
   isSystemItem: boolean;
+  relatedListItem?: ListItem;
 };
 
 type GetListResponse = {

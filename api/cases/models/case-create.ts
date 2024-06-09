@@ -4,7 +4,6 @@ import type { CaseStatus } from "./case-statuses";
 export type CaseCreateRequest = {
   caseNumber: string;
   category: ListItem;
-  contactClient?: any;
   // isos string
   createDate: string;
   name: string;
@@ -14,7 +13,19 @@ export type CaseCreateRequest = {
     securityUserId: string;
   };
   status: CaseStatus;
+  description?: string;
   type?: ListItem;
+  jurisdiction?: ListItem;
+  language?: ListItem;
+  archiveNumber?: string;
+  courtCaseNumber?: string;
+  client?: {
+    clientId: string;
+  };
+  // isos string
+  estimatedCloseDate?: string;
+  // isos string
+  closeDate?: string;
 };
 
 export type CaseCreateResponse = {

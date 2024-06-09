@@ -50,7 +50,7 @@ export type ClientSearchResponse = {
         timeFormat: string;
       }[];
     };
-  };
+  }[];
 };
 
 type ClientStatistics = {
