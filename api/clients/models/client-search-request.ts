@@ -1,21 +1,23 @@
+import type { SearchRequest } from "../../models/search-request";
+import type { SearchResponse } from "../../models/search-response";
 import type { ClientType } from "../clients";
 
 export type ClientsSearchRequest = {
   sort: {
-    field: "RecentUses" | "Name" | "LastName" | "ClientType" | "CreateDate";
+    field:
+      | "RecentUses"
+      | "Name"
+      | "LastName"
+      | "ClientType"
+      | "CreateDate"
+      | "Budget";
     direction: "Asc" | "Desc";
   }[];
-  groupBy: "None";
-  textFilter: string;
-  // you can pass any filters that you see in amberlo contacts page
+  // you can pass any filters that you see in https://app.amberlo.io/#!/clients/list
   filters: any[];
-  page: number;
-  top: number;
-};
+} & SearchRequest;
 
 export type ClientSearchResponse = {
-  hasMorePages: boolean;
-  totalRows: number;
   rows: {
     clientId: string;
     clientNumber: string;
@@ -51,7 +53,7 @@ export type ClientSearchResponse = {
       }[];
     };
   }[];
-};
+} & SearchResponse;
 
 type ClientStatistics = {
   event: {

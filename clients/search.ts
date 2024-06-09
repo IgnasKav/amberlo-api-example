@@ -11,8 +11,13 @@ const searchClients = async () => {
     top: 50,
   };
 
-  const res = await Clients.search(body);
-  return res;
+  const resp = await Clients.search(body);
+
+  if (resp.isError || !resp.data) {
+    throw new Error("Failed to load clients");
+  }
+
+  return resp.data;
 };
 
 export { searchClients };

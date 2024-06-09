@@ -55,10 +55,12 @@ const processFetchResponse = async <T>(
   resp: Response
 ): Promise<FetchResponse<T>> => {
   if (!resp.ok) {
+    const error = (await resp.json()) as { title: string };
+
     return {
       isError: true,
       status: resp.status,
-      message: resp.statusText,
+      message: error.title,
     };
   }
 

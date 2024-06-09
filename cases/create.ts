@@ -42,7 +42,7 @@ const createCase = async () => {
 
   const caseCreateResp = await Cases.create(caseCreateRequest);
 
-  console.log("loading case data");
+  console.log("case created");
 };
 
 const addCaseType = (

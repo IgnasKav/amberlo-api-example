@@ -3,7 +3,10 @@ import type {
   ClientCreateRequest,
   ClientCreateResponse,
 } from "./models/client-create";
-import type { ClientSearchResponse } from "./models/client-search-request";
+import type {
+  ClientSearchResponse,
+  ClientsSearchRequest,
+} from "./models/client-search-request";
 
 export type ClientType = "Private" | "Company";
 
@@ -12,8 +15,8 @@ type GetClientNumberResponse = {
 };
 
 const Clients = {
-  search: async (filters: object) =>
-    post<ClientSearchResponse>("/api/clients/search", filters),
+  search: async (req: ClientsSearchRequest) =>
+    post<ClientSearchResponse>("/api/clients/search", req),
   create: async (req: ClientCreateRequest) =>
     post<ClientCreateResponse>("/api/clients", req),
   getClientNumber: async () =>
