@@ -1,6 +1,8 @@
 import type { SearchRequest } from "../../models/search-request";
-import type { SearchResponse } from "../../models/search-response";
-import type { ClientType } from "../clients";
+import type {
+  EntityAccess,
+  SearchResponse,
+} from "../../models/search-response";
 
 export type ClientsSearchRequest = {
   sort: {
@@ -20,20 +22,11 @@ export type ClientsSearchRequest = {
 export type ClientSearchResponse = {
   rows: {
     clientId: string;
-    clientNumber: string;
     clientType: ClientType;
-    companyName: string;
-    currencyIso3: string;
-    lastName: string;
+    clientCode: string;
     name: string;
+    lastName: string;
     overdueTasks: number;
-    owners: any[];
-    paymentTerm: number;
-    title: string;
-    unreadMessagesCount: number;
-    vatCode: string;
-    vatRate: number;
-    statistics: ClientStatistics;
     responsible: {
       user: {
         securityUserId: string;
@@ -50,10 +43,73 @@ export type ClientSearchResponse = {
         numberFormat: string;
         dateFormat: string;
         timeFormat: string;
-      }[];
+      };
+      userRole: {
+        listItemId: string;
+        name: string;
+        sortIndex: number;
+        isSystemItem: boolean;
+        predefinedType: number;
+        isDeleted: boolean;
+      };
     };
+    addresses: ClientAdress[];
+    owners: any[];
+    linkedClients: any[];
+    vatCode: string;
+    bankAccountNumber: string;
+    usersWithActionableItems: any[];
+    unreadMessagesCount: number;
+    access: EntityAccess;
+    clientEventsData: any[];
+    relatedTasksSummary: {
+      userOverdueCount: number;
+      totalOverdueCount: number;
+      userDueCount: number;
+      totalDueCount: number;
+      userUpcomingCount: number;
+      totalUpcomingCount: number;
+    };
+    statistics: ClientStatistics;
+    budget: {
+      budgetSource: string;
+      timeEntriesTimeInMinutes: number;
+      budgetPeriodType: string;
+      budgetType: string;
+      priceRanges: unknown[];
+    };
+    title: string;
+    clientNumber: string;
+    companyName: string;
+    vatRate?: number;
+    paymentTerm?: number;
+    currencyIso3?: string;
   }[];
 } & SearchResponse;
+
+type ClientType = "Private" | "Company";
+
+type ClientAdress = {
+  addressType: string;
+  country?: {
+    countryId: string;
+    iso2: string;
+    iso3: string;
+    name: string;
+    isInEuropeUnion: boolean;
+    vatRate: number;
+  };
+  state: string;
+  city: {
+    cityId: string;
+    countryId: string;
+    name: string;
+  };
+  streetLine1: string;
+  streetLine2: string;
+  houseNo: string;
+  postalCode: string;
+};
 
 type ClientStatistics = {
   event: {

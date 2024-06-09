@@ -8,8 +8,6 @@ import type {
   ClientsSearchRequest,
 } from "./models/client-search-request";
 
-export type ClientType = "Private" | "Company";
-
 type GetClientNumberResponse = {
   clientNumber: string;
 };
