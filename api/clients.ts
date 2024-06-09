@@ -1,5 +1,6 @@
 import { get, post } from "./api";
 import type { AmberloUser } from "./auth";
+import type { CustomFieldSaveReq } from "./custom-fields";
 import type { Country, Currency, ListItem } from "./lists";
 
 export type ClientAddress = {
@@ -23,7 +24,7 @@ export type ClientCreateRequest = {
   // date iso string
   createDate: string;
   // can be an empty array, but is required
-  customFields: [];
+  customFields: CustomFieldSaveReq;
   // can be an empty array, but is required
   owners: [];
   relationship: ListItem;

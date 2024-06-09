@@ -1,10 +1,18 @@
-import { Auth } from "../api/auth";
 import {
   Clients,
   type ClientAddress,
   type ClientCreateRequest,
 } from "../api/clients";
-import { Lists, type Country } from "../api/lists";
+import {
+  type CustomField,
+  type CustomFieldSaveReq,
+} from "../api/custom-fields";
+import { type Country } from "../api/lists";
+import {
+  ClientCustomFieldTypes,
+  ClientPaymentTypesCustomFieldValues,
+} from "./models/custom-fields";
+import { loadClientData } from "./utils";
 
 const createClient = async () => {
   const {
@@ -14,6 +22,7 @@ const createClient = async () => {
     clientRelationshipTypes,
     currencies,
     countries,
+    customFields,
   } = await loadClientData();
 
   const clientCreateReq: ClientCreateRequest = {
@@ -35,6 +44,7 @@ const createClient = async () => {
   // adding address and vat rate is optional
   addClientAdress(clientCreateReq, countries);
   addVatRate(clientCreateReq, 21);
+  handleCustomFields(clientCreateReq, customFields);
 
   const clientCreateResp = await Clients.create(clientCreateReq);
 
@@ -45,6 +55,39 @@ const createClient = async () => {
   }
 
   console.log("client created");
+};
+
+const handleCustomFields = (
+  clientCreateReq: ClientCreateRequest,
+  customFields: CustomField[]
+) => {
+  const paymentTypesCustomField = customFields.find(
+    (c) => c.name === ClientCustomFieldTypes.paymentTypes
+  );
+
+  if (!paymentTypesCustomField) return;
+
+  const valuesToSelect = [
+    ClientPaymentTypesCustomFieldValues.card,
+    ClientPaymentTypesCustomFieldValues.cash,
+  ];
+  const selectedValues = paymentTypesCustomField.context.values.filter((v) =>
+    valuesToSelect.includes(v.value)
+  );
+
+  if (!selectedValues) return;
+
+  const customFieldSaveReq: CustomFieldSaveReq = [
+    {
+      customFieldId: paymentTypesCustomField.customFieldId,
+      customFieldValueType:
+        paymentTypesCustomField.context.customFieldValueType,
+      fieldName: paymentTypesCustomField.name,
+      values: selectedValues.map((v) => ({ ...v, isSelected: true })),
+    },
+  ];
+
+  clientCreateReq.customFields = customFieldSaveReq;
 };
 
 const addVatRate = (clientCreateReq: ClientCreateRequest, vatRate: number) => {
@@ -68,106 +111,6 @@ const addClientAdress = (
   };
 
   clientCreateReq.addresses = [adress];
-};
-
-const loadClientData = async () => {
-  const [
-    currentUser,
-    clientNumber,
-    clientStatuses,
-    clientRelationshipTypes,
-    currencies,
-    countries,
-  ] = await Promise.all([
-    loadCurrentUser(),
-    loadClientNumber(),
-    loadClientStatuses(),
-    loadClientRelationshipTypes(),
-    loadCurrencies(),
-    loadCountries(),
-  ]);
-
-  return {
-    currentUser,
-    clientNumber,
-    clientStatuses,
-    clientRelationshipTypes,
-    currencies,
-    countries,
-  };
-};
-
-const loadCurrentUser = async () => {
-  const userResp = await Auth.getCurrentUser();
-
-  if (userResp.isError || !userResp.data) {
-    throw new Error("failed to load current user");
-  }
-
-  return userResp.data;
-};
-
-const loadClientNumber = async () => {
-  const clientNumberResp = await Clients.getClientNumber();
-
-  if (clientNumberResp.isError || !clientNumberResp.data) {
-    throw new Error("failed to load client number");
-  }
-
-  return clientNumberResp.data.clientNumber;
-};
-
-const loadClientStatuses = async () => {
-  const clientStatusesResp = await Lists.getList("ClientStatus", false);
-
-  if (clientStatusesResp.isError || !clientStatusesResp.data) {
-    throw new Error("failed to load client statuses");
-  }
-
-  return clientStatusesResp.data.list.items;
-};
-
-const loadClientRelationshipTypes = async () => {
-  const clientRelationshipResp = await Lists.getList(
-    "ClientRelationship",
-    false
-  );
-
-  if (clientRelationshipResp.isError || !clientRelationshipResp.data) {
-    throw new Error("failed to load client relationship types");
-  }
-
-  return clientRelationshipResp.data.list.items;
-};
-
-const loadVatRates = async () => {
-  const vatRatesResp = await Lists.getVatRates();
-
-  if (vatRatesResp.isError || !vatRatesResp.data) {
-    throw new Error("failed to load vat rates");
-  }
-
-  return vatRatesResp.data.list.items;
-};
-
-const loadCurrencies = async () => {
-  const currenciesResp = await Lists.getCurrencies();
-
-  if (currenciesResp.isError || !currenciesResp.data) {
-    throw new Error("failed to load currencies");
-  }
-
-  return currenciesResp.data.rows;
-};
-
-const loadCountries = async () => {
-  const countriesResp = await Lists.getCountries();
-
-  if (countriesResp.isError || !countriesResp.data) {
-    throw new Error("failed to load countries");
-  }
-
-  return countriesResp.data;
 };
 
 export { createClient };
