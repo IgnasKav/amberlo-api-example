@@ -16,7 +16,9 @@ type CustomFieldValueType =
   | "Computed";
 
 export type CustomFieldValue = {
-  valueId: string;
+  // valueId and isSelected properties are needed when working with dropdown, multiselect custom fields
+  valueId?: string;
+  isSelected?: boolean;
   value: string;
 };
 
@@ -44,7 +46,7 @@ export type CustomFieldSaveReq = {
   customFieldId: string;
   customFieldValueType: CustomFieldValueType;
   fieldName: string;
-  values: ({ isSelected: boolean } & CustomFieldValue)[];
+  values: CustomFieldValue[];
 }[];
 
 const CustomFields = {

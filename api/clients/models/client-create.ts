@@ -1,7 +1,5 @@
-import type { AmberloUser } from "../../auth";
 import type { CustomFieldSaveReq } from "../../custom-fields";
 import type { ListItem, Currency, Country } from "../../lists";
-import type { ClientType } from "../clients";
 
 export type ClientAddress = {
   city?: {
@@ -44,3 +42,5 @@ export type ClientCreateRequest = {
 export type ClientCreateResponse = {
   clientId: string;
 };
+
+type ClientType = "Private" | "Company";
