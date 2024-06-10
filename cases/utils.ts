@@ -1,5 +1,6 @@
 import { Auth } from "../api/auth";
 import { Cases } from "../api/cases/cases";
+import { CustomFields } from "../api/custom-fields";
 import { Lists } from "../api/lists";
 import { searchClients } from "../clients/search";
 
@@ -12,6 +13,7 @@ const loadCaseData = async () => {
     clientsSearchResp,
     jurisdictions,
     languages,
+    customFields,
   ] = await Promise.all([
     loadCurrentUser(),
     loadCaseNumber(),
@@ -20,6 +22,7 @@ const loadCaseData = async () => {
     searchClients(),
     loadCaseJurisdictions(),
     loadCaseLanguages(),
+    loadCustomFields(),
   ]);
 
   return {
@@ -30,6 +33,7 @@ const loadCaseData = async () => {
     clientsSearchResp,
     jurisdictions,
     languages,
+    customFields,
   };
 };
 
@@ -91,6 +95,16 @@ const loadCurrentUser = async () => {
   }
 
   return userResp.data;
+};
+
+const loadCustomFields = async () => {
+  const customFieldsResp = await CustomFields.getCustomFields("Cases");
+
+  if (customFieldsResp.isError || !customFieldsResp.data) {
+    throw new Error("failed to load current user");
+  }
+
+  return customFieldsResp.data.rows;
 };
 
 export { loadCaseData };
