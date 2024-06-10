@@ -3,6 +3,7 @@ import type {
   ClientCreateRequest,
   ClientCreateResponse,
 } from "./models/client-create";
+import type { ClientGetResponse } from "./models/client-get-response";
 import type {
   ClientSearchResponse,
   ClientsSearchRequest,
@@ -21,7 +22,8 @@ const Clients = {
     get<GetClientNumberResponse>(
       `/api/clients/number?date=${new Date().toISOString()}`
     ),
-  getClientById: async (clientId: string) => get(`/api/clients/${clientId}`),
+  getClientById: async (clientId: string) =>
+    get<ClientGetResponse>(`/api/clients/${clientId}`),
 };
 
 export { Clients };

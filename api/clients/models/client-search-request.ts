@@ -8,6 +8,7 @@ import type {
   TimeEntryStatistics,
 } from "../../models/search-response";
 import type { UserRelation } from "../../models/user-relation";
+import type { ClientAdress } from "./client-address";
 import type { ClientType } from "./client-create";
 
 export type ClientsSearchRequest = {
@@ -70,28 +71,6 @@ export type ClientSearchResponse = {
     currencyIso3?: string;
   }[];
 } & SearchResponse;
-
-type ClientAdress = {
-  addressType: string;
-  country?: {
-    countryId: string;
-    iso2: string;
-    iso3: string;
-    name: string;
-    isInEuropeUnion: boolean;
-    vatRate: number;
-  };
-  state: string;
-  city: {
-    cityId: string;
-    countryId: string;
-    name: string;
-  };
-  streetLine1: string;
-  streetLine2: string;
-  houseNo: string;
-  postalCode: string;
-};
 
 type ClientStatistics = {
   event: {
