@@ -1,8 +1,14 @@
+import type { RelatedTasksSummary } from "../../models/related-tasks-summary";
 import type { SearchRequest } from "../../models/search-request";
 import type {
   EntityAccess,
+  ExpenseStatistics,
+  InvoiceStatistics,
   SearchResponse,
+  TimeEntryStatistics,
 } from "../../models/search-response";
+import type { UserRelation } from "../../models/user-relation";
+import type { ClientType } from "./client-create";
 
 export type ClientsSearchRequest = {
   sort: {
@@ -28,22 +34,7 @@ export type ClientSearchResponse = {
     lastName: string;
     overdueTasks: number;
     responsible: {
-      user: {
-        securityUserId: string;
-        userId: string;
-        companyId: string;
-        userName: string;
-        firstName: string;
-        lastName: string;
-        languageCode: string;
-        timeZoneId: string;
-        hasProfileImage: boolean;
-        title: string;
-        name: string;
-        numberFormat: string;
-        dateFormat: string;
-        timeFormat: string;
-      };
+      user: UserRelation;
       userRole: {
         listItemId: string;
         name: string;
@@ -62,14 +53,7 @@ export type ClientSearchResponse = {
     unreadMessagesCount: number;
     access: EntityAccess;
     clientEventsData: any[];
-    relatedTasksSummary: {
-      userOverdueCount: number;
-      totalOverdueCount: number;
-      userDueCount: number;
-      totalDueCount: number;
-      userUpcomingCount: number;
-      totalUpcomingCount: number;
-    };
+    relatedTasksSummary: RelatedTasksSummary;
     statistics: ClientStatistics;
     budget: {
       budgetSource: string;
@@ -86,8 +70,6 @@ export type ClientSearchResponse = {
     currencyIso3?: string;
   }[];
 } & SearchResponse;
-
-type ClientType = "Private" | "Company";
 
 type ClientAdress = {
   addressType: string;
@@ -121,18 +103,8 @@ type ClientStatistics = {
     upcomingEvents: number;
     uncompletedEvents: number;
   };
-  timeEntry: {
-    userTimeInMinutes: number;
-    payableTimeInMinutes: number;
-    totalAmount: number;
-    billedTimeInMinutes: number;
-    billedTimeAmount: number;
-    paidTimeInMinutes: number;
-    paidTimeAmount: number;
-  };
-  expense: {
-    amount: number;
-  };
+  timeEntry: TimeEntryStatistics;
+  expense: ExpenseStatistics;
   matter: {
     newCount: number;
     activeCount: number;
@@ -142,19 +114,7 @@ type ClientStatistics = {
     inactiveCount: number;
   };
   invoice: {
-    invoice: {
-      totalNetAmount: number;
-      totalAmount: number;
-      paidAmount: number;
-      dueAmount: number;
-      overdueAmount: number;
-    };
-    estimate: {
-      totalNetAmount: number;
-      totalAmount: number;
-      paidAmount: number;
-      dueAmount: number;
-      overdueAmount: number;
-    };
+    invoice: InvoiceStatistics;
+    estimate: InvoiceStatistics;
   };
 };

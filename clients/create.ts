@@ -1,8 +1,5 @@
 import { Clients } from "../api/clients/clients";
-import {
-  type CustomField,
-  type CustomFieldSaveReq,
-} from "../api/custom-fields";
+import { type CustomField, type EntityCustomField } from "../api/custom-fields";
 import { type Country } from "../api/lists";
 import {
   ClientCustomFieldTypes,
@@ -79,7 +76,7 @@ const handleCustomFields = (
 
   if (!selectedValues) return;
 
-  const customFieldSaveReq: CustomFieldSaveReq = [
+  const customFieldSaveReq: EntityCustomField = [
     {
       customFieldId: paymentTypesCustomField.customFieldId,
       customFieldValueType:

@@ -1,4 +1,4 @@
-import type { CustomFieldSaveReq } from "../../custom-fields";
+import type { EntityCustomField } from "../../custom-fields";
 import type { ListItem } from "../../lists";
 import type { CaseStatus } from "./case-statuses";
 
@@ -27,7 +27,7 @@ export type CaseCreateRequest = {
   estimatedCloseDate?: string;
   // isos string
   closeDate?: string;
-  customFields?: CustomFieldSaveReq;
+  customFields?: EntityCustomField;
 };
 
 export type CaseCreateResponse = {

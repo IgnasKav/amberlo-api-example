@@ -42,7 +42,7 @@ type GetCustomFieldsResponse = {
   rows: CustomField[];
 };
 
-export type CustomFieldSaveReq = {
+export type EntityCustomField = {
   customFieldId: string;
   customFieldValueType: CustomFieldValueType;
   fieldName: string;

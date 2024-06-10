@@ -21,6 +21,7 @@ const Clients = {
     get<GetClientNumberResponse>(
       `/api/clients/number?date=${new Date().toISOString()}`
     ),
+  getClientById: async (clientId: string) => get(`/api/clients/${clientId}`),
 };
 
 export { Clients };

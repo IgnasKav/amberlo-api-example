@@ -1,4 +1,4 @@
-import type { CustomFieldSaveReq } from "../../custom-fields";
+import type { EntityCustomField } from "../../custom-fields";
 import type { ListItem, Currency, Country } from "../../lists";
 
 export type ClientAddress = {
@@ -22,7 +22,7 @@ export type ClientCreateRequest = {
   // date iso string
   createDate: string;
   // can be an empty array, but is required
-  customFields: CustomFieldSaveReq;
+  customFields: EntityCustomField;
   // can be an empty array, but is required
   owners: [];
   relationship: ListItem;
@@ -43,4 +43,4 @@ export type ClientCreateResponse = {
   clientId: string;
 };
 
-type ClientType = "Private" | "Company";
+export type ClientType = "Private" | "Company";

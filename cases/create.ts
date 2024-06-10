@@ -1,7 +1,7 @@
 import { Cases } from "../api/cases/cases";
 import type { CaseCreateRequest } from "../api/cases/models/case-create";
 import { CaseCustomFieldTypes } from "../api/cases/models/case-custom-fields";
-import type { CustomField, CustomFieldSaveReq } from "../api/custom-fields";
+import type { CustomField, EntityCustomField } from "../api/custom-fields";
 import type { ListItem } from "../api/lists";
 import { loadCaseData } from "./utils";
 
@@ -84,7 +84,7 @@ const handleCustomFields = (
     return;
   }
 
-  const customFieldSaveReq: CustomFieldSaveReq = [
+  const customFieldSaveReq: EntityCustomField = [
     {
       customFieldId: singleLineCustomField.customFieldId,
       customFieldValueType: singleLineCustomField.context.customFieldValueType,

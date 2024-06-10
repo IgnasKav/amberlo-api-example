@@ -1,7 +1,12 @@
 import type { ListItem } from "../../lists";
+import type { ClientRelation } from "../../models/client-relation";
+import type { RelatedTasksSummary } from "../../models/related-tasks-summary";
 import type {
   EntityAccess,
+  ExpenseStatistics,
+  InvoiceStatistics,
   SearchResponse,
+  TimeEntryStatistics,
 } from "../../models/search-response";
 
 export type CasesSearchResponse = {
@@ -31,30 +36,16 @@ export type CasesSearchResponse = {
     access: EntityAccess;
     caseEventsData: any[]; // You might want to define a type for case events data if needed
     relatedTasksSummary: RelatedTasksSummary;
-    statistics: Statistics;
+    statistics: CaseStatistics;
     budget: CaseBudget;
     courtCaseNumber: string;
-    client?: CaseClient;
+    client?: ClientRelation;
     clientCode?: string;
     clientVatCode?: string;
     estimatedCloseDate?: string;
     type?: ListItem;
   }[];
 } & SearchResponse;
-
-type CaseClient = {
-  clientId: string;
-  clientType: string;
-  name: string;
-  createDate: string;
-  access: {
-    canView: boolean;
-    canEdit: boolean;
-    canDelete: boolean;
-  };
-  clientNumber: string;
-  companyName: string;
-};
 
 type CaseBudget = {
   budgetSource: string;
@@ -64,38 +55,11 @@ type CaseBudget = {
   priceRanges: any[]; // You might want to define a type for price ranges if needed
 };
 
-type Statistics = {
-  timeEntry: {
-    userTimeInMinutes: number;
-    payableTimeInMinutes: number;
-    totalAmount: number;
-    billedTimeInMinutes: number;
-    billedTimeAmount: number;
-    paidTimeInMinutes: number;
-    paidTimeAmount: number;
-  };
-  expense: {
-    amount: number;
-  };
+type CaseStatistics = {
+  timeEntry: TimeEntryStatistics;
+  expense: ExpenseStatistics;
   invoice: {
     invoice: InvoiceStatistics;
     estimate: InvoiceStatistics;
   };
-};
-
-type InvoiceStatistics = {
-  totalNetAmount: number;
-  totalAmount: number;
-  paidAmount: number;
-  dueAmount: number;
-  overdueAmount: number;
-};
-
-type RelatedTasksSummary = {
-  userOverdueCount: number;
-  totalOverdueCount: number;
-  userDueCount: number;
-  totalDueCount: number;
-  userUpcomingCount: number;
-  totalUpcomingCount: number;
 };
