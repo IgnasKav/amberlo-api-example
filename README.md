@@ -1,6 +1,6 @@
 # amberlo-api
 
-To get secret keys:
+Setup:
 
 1. Create Amberlo account
 2. Login to account, open devloper tools, go to network tab and click on any request. Scroll down until you find "PortfolioId" header, copy the id. Paste `portfolioId` inside `api.ts` file.
