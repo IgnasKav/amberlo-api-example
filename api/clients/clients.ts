@@ -3,7 +3,7 @@ import type {
   ClientCreateRequest,
   ClientCreateResponse,
 } from "./models/client-create";
-import type { ClientGetResponse } from "./models/client-get-response";
+import type { AmberloClient } from "./models/amberlo-client";
 import type {
   ClientSearchResponse,
   ClientsSearchRequest,
@@ -23,7 +23,8 @@ const Clients = {
       `/api/clients/number?date=${new Date().toISOString()}`
     ),
   getClientById: async (clientId: string) =>
-    get<ClientGetResponse>(`/api/clients/${clientId}`),
+    get<AmberloClient>(`/api/clients/${clientId}`),
+  edit: async (req: AmberloClient) => post("/api/clients", req),
 };
 
 export { Clients };

@@ -4,7 +4,7 @@ import type { ClientRelation } from "../../models/client-relation";
 import type { EntityAccess } from "../../models/search-response";
 import type { UserRelation } from "../../models/user-relation";
 
-export type CaseGetResponse = {
+export type AmberloCase = {
   caseId: string;
   relatedClients: unknown[];
   category: ListItem;

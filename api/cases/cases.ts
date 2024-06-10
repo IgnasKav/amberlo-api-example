@@ -3,7 +3,7 @@ import type {
   CaseCreateRequest,
   CaseCreateResponse,
 } from "./models/case-create";
-import type { CaseGetResponse } from "./models/case-get-response";
+import type { AmberloCase } from "./models/amberlo-case";
 import type { CasesSearchRequest } from "./models/cases-search-request";
 import type { CasesSearchResponse } from "./models/cases-search-response";
 
@@ -21,7 +21,7 @@ const Cases = {
   create: async (req: CaseCreateRequest) =>
     post<CaseCreateResponse>("/api/cases", req),
   getCaseById: async (caseId: string) =>
-    get<CaseGetResponse>(`/api/cases/${caseId}`),
+    get<AmberloCase>(`/api/cases/${caseId}`),
 };
 
 export { Cases };

@@ -5,7 +5,7 @@ import type { UserRelation } from "../../models/user-relation";
 import type { ClientAdress } from "./client-address";
 import type { ClientType } from "./client-create";
 
-export type ClientGetResponse = {
+export type AmberloClient = {
   clientId: string;
   clientCode: string;
   createDate: string;
@@ -63,4 +63,8 @@ export type ClientGetResponse = {
   birthdate?: string;
   gender?: ListItem;
   familyStatus?: ListItem;
+  person?: {
+    firstName: string;
+    lastName: string;
+  };
 };
